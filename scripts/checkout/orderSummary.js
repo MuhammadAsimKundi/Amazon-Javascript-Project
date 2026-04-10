@@ -4,15 +4,8 @@ import { formatCurrency } from '../utils/money.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
-// import { renderPaymentSummary } from './paymentSummary.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
-hello();
-
-dayjs();
-const today = dayjs();
-const deliveryDate = today.add(7, 'days');
-
-console.log(deliveryDate.format('ddd, MMM D'))
 
 export function renderOrderSummary(){
     let cartSummaryHTML = '';
@@ -115,10 +108,11 @@ export function renderOrderSummary(){
         })
 
         return html;
+
+        
     }
 
-    // to render the payment summary once i update the delivery options
-    // renderPaymentSummary()
+    
 
     document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
@@ -133,6 +127,9 @@ export function renderOrderSummary(){
                 `.js-cart-item-container-${productId}`
             )
             container.remove()
+            
+            // to render the payment summary once i delete any thing
+            renderPaymentSummary();
         });
     });
 
@@ -144,6 +141,8 @@ export function renderOrderSummary(){
             // recursion : (function calling itself or re-run itself)
             // calling itself again to render order summary date in real time and we dont need to update it by refreshing
             renderOrderSummary();
+            // to render the payment summary once i update the delivery options
+            renderPaymentSummary()
         } );
     });
 };
