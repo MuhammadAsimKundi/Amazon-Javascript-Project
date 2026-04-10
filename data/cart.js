@@ -52,3 +52,19 @@ export function removeFromCart(prodcutId){
 
     saveToStorage();
 }
+
+// update the develivery option date through deliveryOptionId using function
+
+export function updateDeliveryOption(productId, deliveryOptionId){
+  let matchingItem;
+
+  cart.forEach((CartItem) => {
+    if(productId === CartItem.productId){
+      matchingItem = CartItem;
+    }
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+
+  saveToStorage();
+}
