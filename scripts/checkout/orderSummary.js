@@ -5,9 +5,34 @@ import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
+import { cartItems } from '../utils/items.js';
 
 
 export function renderOrderSummary(){
+
+    
+    let jsHeaderHTML = `
+        <div class="checkout-header-left-section">
+          <a href="amazon.html">
+            <img class="amazon-logo" src="images/amazon-logo.png">
+            <img class="amazon-mobile-logo" src="images/amazon-mobile-logo.png">
+          </a>
+        </div>
+
+        <div class="checkout-header-middle-section">
+          Checkout (<a class="return-to-home-link"
+            href="amazon.html">${cartItems()} items</a>)
+        </div>
+
+        <div class="checkout-header-right-section">
+          <img src="images/icons/checkout-lock-icon.png">
+        </div>
+    `
+
+    document.querySelector('.js-header-content').innerHTML =  jsHeaderHTML;
+
+
+
     let cartSummaryHTML = '';
 
     cart.forEach((cartItem) => {
@@ -130,6 +155,8 @@ export function renderOrderSummary(){
             
             // to render the payment summary once i delete any thing
             renderPaymentSummary();
+            // to render the order summary so all the changes made are shown like items numbers showing after delete
+            renderOrderSummary()
         });
     });
 

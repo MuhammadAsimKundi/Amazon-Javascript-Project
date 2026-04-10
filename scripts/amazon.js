@@ -1,9 +1,26 @@
 import {cart, addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import { cartItems } from './utils/items.js';
+
+
+//Updatting the items count in topright cart icon
+let topRightCartItem = `
+  <a class="orders-link header-link" href="orders.html">
+      <span class="returns-text">Returns</span>
+      <span class="orders-text">& Orders</span>
+    </a>
+
+    <a class="cart-link header-link" href="checkout.html">
+      <img class="cart-icon" src="images/icons/cart-icon.png">
+      <div class="cart-quantity js-cart-quantity">${cartItems()}</div>
+      <div class="cart-text">Cart</div>
+    </a>
+`
+document.querySelector('.js-amazon-header-right-section').innerHTML = topRightCartItem;
+
 
 let productsHTML = '';
-
 products.forEach((product) => {
     productsHTML += `
         <div class="product-container">
