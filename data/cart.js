@@ -1,6 +1,8 @@
 export let cart ;
 
 loadFromStorage();
+
+
 // we created this for jasmine test
 export function loadFromStorage(){
   cart = JSON.parse(localStorage.getItem('cart'));
