@@ -4,7 +4,7 @@ function Cart(localStorageKey){
 
         // we created this method for jasmine test
         loadFromStorage() {
-        cart.cartItems = JSON.parse(localStorage.getItem(localStorageKey));
+        this.cartItems = JSON.parse(localStorage.getItem(localStorageKey));
         if(!this.cartItems){
             this.cartItems = [{
                 productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
