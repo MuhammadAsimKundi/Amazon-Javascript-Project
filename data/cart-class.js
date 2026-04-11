@@ -3,17 +3,19 @@ class Cart{
     //in class we use = instead of : and ; instead of ,
 
     //shortcut of cartItems = undefined;
+    //making it private so that its not accessed outside of class
     cartItems;
-    localStorageKey;
+    #localStorageKey;
 
     constructor(localStorageKey){
-        this.localStorageKey = localStorageKey;
-        this.loadFromStorage();
+        this.#localStorageKey = localStorageKey;
+        this.#loadFromStorage();
     }
 
     // we created this method for jasmine test
-    loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+    //making method private 
+    #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
     if(!this.cartItems){
         this.cartItems = [{
             productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -30,7 +32,7 @@ class Cart{
     }
 
     saveToStorage(){
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
     }
 
     addToCart(productId){
