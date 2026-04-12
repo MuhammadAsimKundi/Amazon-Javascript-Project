@@ -28,6 +28,10 @@ class Product {
     this.priceCents = productDetails.priceCents;
   }
 
+  extraInfoHTML(){
+    return '';
+  }
+
   getStarsUrl (){
     return `images/ratings/rating-${this.rating.stars * 10}.png`
   }
@@ -36,6 +40,24 @@ class Product {
   }
 }
 
+class Clothing extends Product{
+  sizeChartLink;
+
+  constructor(productDetails){
+    //super call the parent constructor so it set everything like id name etc
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraInfoHTML () {
+    //super.extraInfoHTML
+    return `
+    <a href = "${this.sizeChartLink}" target = "_blank">
+    Size Chart
+    </a>
+    `
+  }
+}
 
 export const products = [
   {
@@ -698,6 +720,10 @@ export const products = [
   }
 ].map((productDetails) => {
   // .MAP run function for each item in array. and return new array
+
+  if(productDetails.type === 'clothing'){
+    return new Clothing(productDetails);
+  }
 
   return new Product(productDetails);
 })
