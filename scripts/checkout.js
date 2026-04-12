@@ -3,6 +3,7 @@ import {renderOrderSummary} from './checkout/orderSummary.js';
 import {renderPaymentSummary} from './checkout/paymentSummary.js';
 import { loadProducts, loadProductsFetch } from '../data/products.js';
 import { loadCart } from '../data/cart.js';
+import { addOrder } from '../data/order.js';
 // to run all the code from this file
 // commented it to update Cart class everywhere.
 //import '../data/cart-class.js';
@@ -90,3 +91,11 @@ loadProducts(() => {
     });
 });
 */
+
+//adding order in order
+addOrder({
+  id: crypto.randomUUID(),
+  date: "April 12",
+  total: 50.00,
+  products: cartProducts
+});
