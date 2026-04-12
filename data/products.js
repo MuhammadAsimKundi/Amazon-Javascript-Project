@@ -1,4 +1,5 @@
 import { formatCurrency } from "../scripts/utils/money.js";
+
 export function getProduct(productId){
   // to find the matching product
   let matchingProduct;
@@ -60,6 +61,37 @@ class Clothing extends Product{
 }
 
 export let products = [];
+
+export function loadProductsFetch(){
+  //fetch uses a promise to wait for the response and wait
+  const promise = fetch(
+    'https://supersimplebackend.dev/products'
+  ).then((response) => {
+    //response.json() is asyncronous it return the promise
+    return response.json()
+  }).then((productData) => {
+    products = productData.map((productDetails) => {
+      // .MAP run function for each item in array. and return new array
+
+      if(productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
+      }
+
+      return new Product(productDetails);
+    });
+    
+    console.log('load products')
+  })
+
+  return promise;
+}
+
+/*
+// after returning the promise we can add another steps at the end of the upper promise
+loadProductsFetch().then(() => {
+  console.log('next step')
+})*/
+
 
 export function loadProducts(fun){
   const xhr = new XMLHttpRequest();

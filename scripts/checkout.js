@@ -1,7 +1,7 @@
 //import'../data/backend-practice.js';
 import {renderOrderSummary} from './checkout/orderSummary.js';
 import {renderPaymentSummary} from './checkout/paymentSummary.js';
-import { loadProducts } from '../data/products.js';
+import { loadProducts, loadProductsFetch } from '../data/products.js';
 import { loadCart } from '../data/cart.js';
 // to run all the code from this file
 // commented it to update Cart class everywhere.
@@ -9,12 +9,8 @@ import { loadCart } from '../data/cart.js';
 
 //promise.all gonna wait for all the promises to finish before going to the next step
 Promise.all([
-    new Promise((resolve) => {
-        //we wait for loadProducts to finish and then cal resolve to go to next step
-        loadProducts( () => {
-            resolve('value1');
-        });
-    }),
+    //loadproductsFetch return a promise
+    loadProductsFetch(),
     new Promise((resolve) => {
         loadCart(() => {
             resolve();
