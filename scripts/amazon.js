@@ -60,10 +60,7 @@ products.forEach((product) => {
             </select>
           </div>
 
-          // here we use polymorphism as we dont know it might be product class or clothing class
-          //polymorphism: we can use a method without knowing what class it is.
-          // we use polyphormism instead of if-else statement
-          //in polyphormism the class itself determines what this method does
+        
           ${product.extraInfoHTML()}
 
           <div class="product-spacer"></div>
@@ -79,6 +76,13 @@ products.forEach((product) => {
         </div>
     `;
 });
+
+//    Above we use polymorphism
+// // here we use polymorphism as we dont know it might be product class or clothing class
+//           // polymorphism: we can use a method without knowing what class it is.
+//           // we use polyphormism instead of if-else statement
+//           // in polyphormism the class itself determines what this method does
+//           ${product.extraInfoHTML()}
 
 document.querySelector('.js-product-grid').innerHTML = productsHTML
 
