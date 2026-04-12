@@ -1,11 +1,21 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import {loadFromStorage, cart} from '../../data/cart.js';
+import { loadProducts } from "../../data/products.js";
 
 // Integration Test : It tests many units/pieces of code working together
 
 describe('test suite: renderOrderSummary', () => {
     const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6'
     const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d'
+
+    // beforeAll (its js hook) it runs this and done() waits for it to finished. 
+    // done() let us control when to go to next step
+    // we can use done() inside beforeEach and it.
+    beforeAll((done) => {
+        loadProducts(() => {
+            done();
+        });
+    });
 
     beforeEach(() => {
         spyOn(localStorage, 'setItem');
