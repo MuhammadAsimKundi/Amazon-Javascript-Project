@@ -7,6 +7,27 @@ import { loadCart } from '../data/cart.js';
 // commented it to update Cart class everywhere.
 //import '../data/cart-class.js';
 
+//async await
+//async make a function return a promise
+//async let us use await feature. await let us wait for a promise to finish befor going to next line.
+async function loadPage(){
+
+    //await  will wait to finish this line loadproductsfetch line before going to next line. instead of using .then
+    await loadProductsFetch();
+
+    const value = await new Promise((resolve) => {
+        loadCart(() => {
+            resolve('value3');
+        })
+    });
+
+    renderOrderSummary();
+    renderPaymentSummary();
+
+}
+loadPage()
+
+/*
 //promise.all gonna wait for all the promises to finish before going to the next step
 Promise.all([
     //loadproductsFetch return a promise
@@ -22,6 +43,7 @@ Promise.all([
     renderOrderSummary();
     renderPaymentSummary();
 })
+*/
 
 /*
 //its a built in class and when we create promise we give it function
