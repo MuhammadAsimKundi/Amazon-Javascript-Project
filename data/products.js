@@ -81,10 +81,14 @@ export function loadProductsFetch(){
     });
     
     console.log('load products')
+  }).catch((error) => {
+      console.log('Unexpected errors. Please try again later.')
+
   })
 
   return promise;
 }
+
 
 /*
 // after returning the promise we can add another steps at the end of the upper promise
@@ -92,7 +96,7 @@ loadProductsFetch().then(() => {
   console.log('next step')
 })*/
 
-
+// load products function
 export function loadProducts(fun){
   const xhr = new XMLHttpRequest();
 
@@ -111,6 +115,11 @@ export function loadProducts(fun){
     //runing the fun function that is renderProductsGrid() on amazon.js that is rendering items on dom
     //function passed as parameter is called callback giving it a function to run in future.
     fun();
+  });
+
+  // error handling: seperate callback just for error handling
+  xhr.addEventListener('error', () => {
+    console.log('Unexpected errors. Please try again later.')
   });
 
   xhr.open('GET', 'https://supersimplebackend.dev/products');

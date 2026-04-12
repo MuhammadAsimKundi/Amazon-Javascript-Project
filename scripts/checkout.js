@@ -11,15 +11,24 @@ import { loadCart } from '../data/cart.js';
 //async make a function return a promise
 //async let us use await feature. await let us wait for a promise to finish befor going to next line.
 async function loadPage(){
-
-    //await  will wait to finish this line loadproductsfetch line before going to next line. instead of using .then
-    await loadProductsFetch();
-
-    const value = await new Promise((resolve) => {
-        loadCart(() => {
-            resolve('value3');
-        })
-    });
+    try{
+        //Using throw to manually create error and it will goes streight into error
+        //throw 'error';
+        //await  will wait to finish this line loadproductsfetch line before going to next line. instead of using .then
+        await loadProductsFetch();
+        
+        //reject helps us throw error in future
+        const value = await new Promise((resolve, reject) => {
+            //throw 'error2
+            loadCart(() => {
+                //reject helps us throw error in future
+                //reject('error3')
+                resolve('value3');
+            })
+        });
+    } catch (error) {
+        console.log('Unexpected errors. Please try again later.')
+    }
 
     renderOrderSummary();
     renderPaymentSummary();
