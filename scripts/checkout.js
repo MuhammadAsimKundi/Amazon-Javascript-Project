@@ -2,13 +2,64 @@
 import {renderOrderSummary} from './checkout/orderSummary.js';
 import {renderPaymentSummary} from './checkout/paymentSummary.js';
 import { loadProducts } from '../data/products.js';
+import { loadCart } from '../data/cart.js';
 // to run all the code from this file
 // commented it to update Cart class everywhere.
 //import '../data/cart-class.js';
 
-//this gonna save this function inside the parameter fun on product.js. 
-// and then after loading all the things we will call the fun.
-loadProducts(() => {
+//promise.all gonna wait for all the promises to finish before going to the next step
+Promise.all([
+    new Promise((resolve) => {
+        //we wait for loadProducts to finish and then cal resolve to go to next step
+        loadProducts( () => {
+            resolve('value1');
+        });
+    }),
+    new Promise((resolve) => {
+        loadCart(() => {
+            resolve();
+        })
+    })
+
+]).then((values) => {
+    console.log(values)
     renderOrderSummary();
     renderPaymentSummary();
+})
+
+/*
+//its a built in class and when we create promise we give it function
+new Promise((resolve) => {
+    //we wait for loadProducts to finish and then cal resolve to go to next step
+    loadProducts( () => {
+        resolve('value1');
+    });
+
+}).then((value) => {
+    console.log(value)
+
+    return new Promise((resolve) => {
+        loadCart(() => {
+            resolve();
+        })
+    });
+
+}).then(() => {
+    renderOrderSummary();
+    renderPaymentSummary();
+})
+*/
+
+//here promise and callback doing same thing.  as multiple callback cause alot of nesting 
+
+//this gonna save this function inside the parameter fun on product.js. 
+// and then after loading all the things we will call the fun.
+/*
+loadProducts(() => {
+    //nesting is callback problem. it make our code difficult
+    loadCart(() => {
+        renderOrderSummary();
+        renderPaymentSummary();
+    });
 });
+*/

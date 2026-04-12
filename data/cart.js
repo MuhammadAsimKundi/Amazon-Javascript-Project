@@ -78,3 +78,20 @@ export function updateDeliveryOption(productId, deliveryOptionId){
 
   saveToStorage();
 }
+
+
+// loading cart from backedn
+export function loadCart(fun){
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {   
+    console.log(xhr.response) 
+    //runing the fun function that is renderProductsGrid() on amazon.js that is rendering items on dom
+    //function passed as parameter is called callback giving it a function to run in future.
+    fun();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  //xhr.send in sync
+  xhr.send();
+}
