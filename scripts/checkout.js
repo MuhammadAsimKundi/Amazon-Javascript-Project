@@ -93,9 +93,9 @@ loadProducts(() => {
 */
 
 //adding order in order
-addOrder({
-  id: crypto.randomUUID(),
-  date: "April 12",
-  total: 50.00,
-  products: cartProducts
-});
+// addOrder({
+//   id: crypto.randomUUID(),
+//   date: "April 12",
+//   total: 50.00,
+//   products: cartProducts
+// });
