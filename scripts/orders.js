@@ -1,10 +1,7 @@
-// scripts/orders.js
-
 import { orders, loadOrdersFromStorage } from '../data/order.js';
 import { getProduct, loadProductsFetch } from '../data/products.js';
 import { renderHeader } from './renderHeader.js';
 
-// ✅ Render ONLY ONE order (ACTIVE ORDER)
 function renderOrders() {
   const ordersGrid = document.querySelector('.orders-grid');
   if (!ordersGrid) return;
@@ -19,8 +16,9 @@ function renderOrders() {
     `;
     return;
   }
-
-  const order = orders[0]; // ✅ ONLY ACTIVE ORDER
+  
+  // ONLY ACTIVE ORDER
+  const order = orders[0]; 
 
   let productsHTML = '';
 
@@ -109,7 +107,7 @@ function renderOrders() {
   `;
 }
 
-// ✅ INIT
+// INIT
 async function init() {
   try {
     await loadProductsFetch();

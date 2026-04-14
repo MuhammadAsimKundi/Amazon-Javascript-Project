@@ -3,9 +3,7 @@ import { getProduct, loadProductsFetch } from '../data/products.js';
 import { renderHeader } from './renderHeader.js';
 
 
-// -----------------------------
-// URL PARAMS
-// -----------------------------
+// URL Params
 function getUrlParams() {
   const url = new URL(window.location.href);
 
@@ -16,9 +14,6 @@ function getUrlParams() {
 }
 
 
-// -----------------------------
-// STATUS LOGIC
-// -----------------------------
 function getStatus(estimatedDeliveryTime) {
   const now = new Date();
   const delivery = new Date(estimatedDeliveryTime);
@@ -38,9 +33,6 @@ function getStatus(estimatedDeliveryTime) {
 }
 
 
-// -----------------------------
-// FIND DATA
-// -----------------------------
 function getTrackingData(orderId, productId) {
   const order = orders.find(o => o.id === orderId);
   if (!order) return null;
@@ -57,9 +49,8 @@ function getTrackingData(orderId, productId) {
 }
 
 
-// -----------------------------
-// RENDER UI
-// -----------------------------
+
+// Rendering UI
 function render(data) {
   const container = document.querySelector('.js-main');
 
@@ -121,9 +112,7 @@ function render(data) {
 }
 
 
-// -----------------------------
 // INIT
-// -----------------------------
 async function init() {
   try {
     console.log("Tracking page loaded");

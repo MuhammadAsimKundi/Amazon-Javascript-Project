@@ -5,7 +5,8 @@ import { formatCurrency } from '../utils/money.js';
 import { cartItems } from '../utils/items.js';
 import { addOrder } from '../../data/order.js';
 
-let isPlacingOrder = false; // ✅ prevents duplicate clicks
+// prevents duplicate clicks
+let isPlacingOrder = false; 
 
 export function renderPaymentSummary() {
 
@@ -63,11 +64,10 @@ export function renderPaymentSummary() {
 
     document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 
-    // ✅ SAFE PLACE ORDER HANDLER
     document.querySelector('.js-place-order')
         .addEventListener('click', async () => {
 
-            if (isPlacingOrder) return; // ❌ prevent double click
+            if (isPlacingOrder) return; // prevent double click
             isPlacingOrder = true;
 
             const button = document.querySelector('.js-place-order');
@@ -87,7 +87,7 @@ export function renderPaymentSummary() {
 
                 const order = await response.json();
 
-                // ✅ FORCE SINGLE ORDER SYSTEM
+                // FORCE SINGLE ORDER SYSTEM
                 order.id = "ACTIVE_ORDER";
 
                 addOrder(order);

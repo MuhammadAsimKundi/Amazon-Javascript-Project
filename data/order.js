@@ -1,11 +1,8 @@
-// data/order.js
-
 export let orders = JSON.parse(localStorage.getItem('orders')) || [];
 
 // We now enforce ONLY ONE order (ACTIVE ORDER SYSTEM)
 const ACTIVE_ORDER_ID = "ACTIVE_ORDER";
 
-// Add or update order (NO DUPLICATES EVER)
 export function addOrder(order) {
 
   // Force single order ID system
@@ -14,10 +11,10 @@ export function addOrder(order) {
   const index = orders.findIndex(o => o.id === ACTIVE_ORDER_ID);
 
   if (index !== -1) {
-    // ✅ UPDATE existing order (same container updated)
+    // UPDATE existing order (same container updated)
     orders[index] = order;
   } else {
-    // ✅ FIRST TIME only
+    // FIRST time only
     orders = [order];
   }
 
