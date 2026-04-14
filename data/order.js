@@ -2,16 +2,23 @@
 
 export let orders = JSON.parse(localStorage.getItem('orders')) || [];
 
-// Add or update order (prevents duplicates)
+// We now enforce ONLY ONE order (ACTIVE ORDER SYSTEM)
+const ACTIVE_ORDER_ID = "ACTIVE_ORDER";
+
+// Add or update order (NO DUPLICATES EVER)
 export function addOrder(order) {
-  const index = orders.findIndex(o => o.id === order.id);
+
+  // Force single order ID system
+  order.id = ACTIVE_ORDER_ID;
+
+  const index = orders.findIndex(o => o.id === ACTIVE_ORDER_ID);
 
   if (index !== -1) {
-    // Update existing order
+    // ✅ UPDATE existing order (same container updated)
     orders[index] = order;
   } else {
-    // Add new order at top
-    orders.unshift(order);
+    // ✅ FIRST TIME only
+    orders = [order];
   }
 
   saveToStorage();
@@ -21,10 +28,14 @@ function saveToStorage() {
   localStorage.setItem('orders', JSON.stringify(orders));
 }
 
-// Reload from storage (optional safety)
+// Reload from storage
 export function loadOrdersFromStorage() {
   const savedOrders = JSON.parse(localStorage.getItem('orders'));
-  if (savedOrders) {
+
+  if (savedOrders && savedOrders.length > 0) {
     orders = savedOrders;
+
+    // enforce single order rule even on reload
+    orders = [orders[0]];
   }
 }

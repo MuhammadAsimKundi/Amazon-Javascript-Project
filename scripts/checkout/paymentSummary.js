@@ -1,12 +1,14 @@
-import {cart} from '../../data/cart.js';
+import { cart } from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { getDeliveryOption } from '../../data/deliveryOptions.js';
 import { formatCurrency } from '../utils/money.js';
 import { cartItems } from '../utils/items.js';
 import { addOrder } from '../../data/order.js';
 
+let isPlacingOrder = false; // ✅ prevents duplicate clicks
 
-export function renderPaymentSummary(){
+export function renderPaymentSummary() {
+
     let productPriceCents = 0;
     let ShippingPriceCents = 0;
 
@@ -16,80 +18,89 @@ export function renderPaymentSummary(){
         productPriceCents += product.priceCents * cartItem.quantity;
 
         const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-        ShippingPriceCents += deliveryOption.priceCents * cartItem.quantity
+        ShippingPriceCents += deliveryOption.priceCents * cartItem.quantity;
 
-        
-        
     });
+
     const totalBeforTaxCents = productPriceCents + ShippingPriceCents;
     const taxCents = totalBeforTaxCents * 0.1;
-    const totalCents = totalBeforTaxCents + taxCents
+    const totalCents = totalBeforTaxCents + taxCents;
 
     const paymentSummaryHTML = `
-            <div class="payment-summary-title">
-                Order Summary
-            </div>
+        <div class="payment-summary-title">
+            Order Summary
+        </div>
 
-            <div class="payment-summary-row">
-                <div>Items (${cartItems()}):</div>
-                <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
-            </div>
+        <div class="payment-summary-row">
+            <div>Items (${cartItems()}):</div>
+            <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
+        </div>
 
-            <div class="payment-summary-row">
-                <div>Shipping &amp; handling:</div>
-                <div class="payment-summary-money">$${formatCurrency(ShippingPriceCents)}</div>
-            </div>
+        <div class="payment-summary-row">
+            <div>Shipping &amp; handling:</div>
+            <div class="payment-summary-money">$${formatCurrency(ShippingPriceCents)}</div>
+        </div>
 
-            <div class="payment-summary-row subtotal-row">
-                <div>Total before tax:</div>
-                <div class="payment-summary-money">$${formatCurrency(totalBeforTaxCents)}</div>
-            </div>
+        <div class="payment-summary-row subtotal-row">
+            <div>Total before tax:</div>
+            <div class="payment-summary-money">$${formatCurrency(totalBeforTaxCents)}</div>
+        </div>
 
-            <div class="payment-summary-row">
-                <div>Estimated tax (10%):</div>
-                <div class="payment-summary-money">$${formatCurrency(taxCents)}</div>
-            </div>
+        <div class="payment-summary-row">
+            <div>Estimated tax (10%):</div>
+            <div class="payment-summary-money">$${formatCurrency(taxCents)}</div>
+        </div>
 
-            <div class="payment-summary-row total-row">
-                <div>Order total:</div>
-                <div class="payment-summary-money">$${formatCurrency(totalCents)}</div>
-            </div>
+        <div class="payment-summary-row total-row">
+            <div>Order total:</div>
+            <div class="payment-summary-money">$${formatCurrency(totalCents)}</div>
+        </div>
 
-            <button class="place-order-button button-primary 
-            js-place-order">
-                Place your order
-            </button>
-        `;
+        <button class="place-order-button button-primary js-place-order">
+            Place your order
+        </button>
+    `;
 
     document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 
-
-    //placing order from backend
+    // ✅ SAFE PLACE ORDER HANDLER
     document.querySelector('.js-place-order')
-    .addEventListener('click', async () => {
-        try{
-            const response = await fetch('https://supersimplebackend.dev/orders', {
-                method: 'POST',
-                //header gives the backend more info about our request
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cart: cart
-                })
-            });
-            const order = await response.json();
-            addOrder(order);
+        .addEventListener('click', async () => {
 
-        }catch(error){
-            console.log('Unexpected error, Try again later.')
-        }
+            if (isPlacingOrder) return; // ❌ prevent double click
+            isPlacingOrder = true;
 
-        window.location.href = 'orders.html';
-    });
+            const button = document.querySelector('.js-place-order');
+            button.disabled = true;
+            button.innerText = 'Processing...';
 
+            try {
+                const response = await fetch('https://supersimplebackend.dev/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cart: cart
+                    })
+                });
+
+                const order = await response.json();
+
+                // ✅ FORCE SINGLE ORDER SYSTEM
+                order.id = "ACTIVE_ORDER";
+
+                addOrder(order);
+
+            } catch (error) {
+                console.log('Unexpected error, Try again later.');
+                isPlacingOrder = false;
+                return;
+            }
+
+            // small delay for UX safety
+            setTimeout(() => {
+                window.location.href = 'orders.html';
+            }, 300);
+        });
 }
-    // console.log(paymentSummaryHTML)
-
-
-// document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML
