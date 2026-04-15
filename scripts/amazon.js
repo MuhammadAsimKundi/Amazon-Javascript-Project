@@ -4,7 +4,7 @@ import { formatCurrency } from './utils/money.js';
 import { cartItems } from './utils/items.js';
 import { renderHeader } from './renderHeader.js';
 
-renderHeader();   // ✅ dynamic header
+renderHeader();   // dynamic header
 
 
 //loading the renderProductsGrid in loadproducts() in products.js that takes data from backend api
