@@ -1,5 +1,5 @@
 ```md
-# 🛒 Amazon Clone (JavaScript Project)
+# 🛒 Amazon Clone (JavaScript Project):
 
 A simple eCommerce web application built using **HTML, CSS, and JavaScript**.  
 This project simulates basic Amazon-like features such as product listing, cart management, checkout, and order tracking.
